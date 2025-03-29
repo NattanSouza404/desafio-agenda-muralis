@@ -21,33 +21,39 @@ export default function CadastroCliente() {
 
             <h3>Contato</h3>
             <form>
-                <label htmlFor="tipoContato">Tipo do contato</label>
+                <label htmlFor="tipoContato">Tipo do contato (OBRIGATORIO)</label>
                 <select name="tipoContato">
                     <option value="TELEFONE">Telefone</option>
                     <option value="EMAIL">E-mail</option>
                 </select>
 
-                <label htmlFor="valor">Contato</label>
+                <label htmlFor="valor">Contato (OBRIGATORIO)</label>
                 <input type="text" name ="valor"/>
 
                 <label htmlFor="observacao">Observação</label>
                 <input type="text" name ="observacao"/>
+
+                <button>Remover</button>
             </form>
 
             <h3>Contato</h3>
             <form>
                 <label>Tipo do contato</label>
                 <select name="tipoContato">
-                    <option value="TELEFONE">Telefone</option>
+                    <option value="TELEFONE">Telefone (OBRIGATORIO)</option>
                     <option value="EMAIL">E-mail</option>
                 </select>
 
-                <label htmlFor="valor">Contato</label>
+                <label htmlFor="valor">Contato (OBRIGATORIO)</label>
                 <input type="text" name ="valor"/>
 
                 <label htmlFor="observacao">Observação</label>
                 <input type="text" name ="observacao"/>
+
+                <button>Remover</button>
             </form>
+
+            <button>Adicionar novo contato</button>
         </div>
     );
 }
