@@ -1,7 +1,11 @@
 package com.comercios_sa.agenda.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,10 +15,6 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-
-/***
- * Classe que representa os contatos que cada cliente pode ter.
- */
 
 @Entity
 @Getter
@@ -29,7 +29,8 @@ public class Contato {
     private int id;
 
     @Column(name = "ctt_tipo", nullable = false)
-    private TipoContato tipo;
+    @Enumerated(EnumType.STRING)
+    private TipoContato tipoContato;
 
     @Column(name = "ctt_valor", nullable = false)
     private String valor;
@@ -39,6 +40,7 @@ public class Contato {
 
     @ManyToOne
     @JoinColumn(name = "ctt_cli_id", nullable = false)
+    @JsonIgnore
     private Cliente cliente;
 
 }
