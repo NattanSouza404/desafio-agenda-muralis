@@ -16,6 +16,9 @@ public class ClienteService {
     @Autowired
     private ClienteRepository repository;
 
+    @Autowired
+    private ClienteValidator validator;
+
     public List<Cliente> getAllClientes(){
         return repository.findAll();
     }
@@ -24,10 +27,19 @@ public class ClienteService {
         return repository.findById(id);
     }
 
-    public Cliente addCliente(Cliente cliente){
+    public Cliente addCliente(Cliente cliente) throws Exception{
         for (Contato c : cliente.getContatos()) {
             c.setCliente(cliente);
         }
+        validator.validar(cliente);
+        return repository.save(cliente);
+    }
+
+    public Cliente updateCliente(Cliente cliente) throws Exception {
+        for (Contato c : cliente.getContatos()) {
+            c.setCliente(cliente);
+        }
+        validator.validar(cliente);
         return repository.save(cliente);
     }
 
@@ -35,7 +47,4 @@ public class ClienteService {
         repository.deleteById(id);
     }
 
-    public Cliente updateCliente(Cliente cliente) {
-        return repository.save(cliente);
-    }
 }
