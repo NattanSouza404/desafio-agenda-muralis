@@ -5,28 +5,34 @@ import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 
 import com.comercios_sa.agenda.model.Cliente;
-import com.comercios_sa.agenda.model.Contato;
+
+import lombok.NonNull;
 
 @Component
 public class ClienteValidator {
 
-    public void validar(Cliente cliente) throws Exception{
-       
-        if (cliente.getNome().isBlank() || cliente.getNome().isEmpty()){
-            throw new Exception("Nome não pode ser vazio!");
-        }
+    public void validar(@NonNull Cliente cliente) {
+        validarSeVazio(cliente.getNome());
+        validarDataNascimento(cliente.getDataNascimento());
+    }
 
-        if (cliente.getDataNascimento() != null && cliente.getDataNascimento().isAfter(LocalDate.now())){
-            throw new Exception("Data inválida!");
-        }
-
-        for (Contato contato : cliente.getContatos()) {
-            validar(contato);
+    private void validarSeVazio(String string) {
+        if (string == null || string.isBlank()){
+            throw new IllegalArgumentException("Nome não pode ser vazio!");
         }
     }
 
-    private void validar(Contato contato) {
-        
+    private void validarDataNascimento(LocalDate dataNascimento) {
+        if (dataNascimento == null){
+            return;
+        }
+
+        LocalDate dataMinima = LocalDate.of(1900, 1, 1);
+        LocalDate dataMaxima = LocalDate.now();
+
+        if (dataNascimento.isBefore(dataMinima) || dataNascimento.isAfter(dataMaxima)){
+            throw new IllegalArgumentException("Data inválida!");
+        }
     }
 
 }
