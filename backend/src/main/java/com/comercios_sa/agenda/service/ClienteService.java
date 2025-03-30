@@ -27,6 +27,10 @@ public class ClienteService {
         return repository.findById(id);
     }
 
+    public List<Cliente> getClientesByFiltro(String nome, String cpf){
+        return repository.filtrarPorNomeECPF(nome, cpf);
+    }
+
     public Cliente addCliente(Cliente cliente) throws Exception{
         for (Contato c : cliente.getContatos()) {
             c.setCliente(cliente);

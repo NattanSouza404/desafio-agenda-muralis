@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comercios_sa.agenda.model.Cliente;
@@ -43,6 +44,21 @@ public class ClienteController {
 
         return ResponseEntity.ok(cliente);
 
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<Cliente>> getCliente(
+        @RequestParam(required = false) String nome,
+        @RequestParam(required = false) String cpf
+    ){
+        
+        List<Cliente> clientes = service.getClientesByFiltro(nome, cpf);
+
+        if (clientes.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.ok(clientes);
     }
     
     @PostMapping("/add")
