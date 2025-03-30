@@ -1,6 +1,8 @@
 package com.comercios_sa.agenda.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,29 +35,52 @@ public class ClienteController {
     @GetMapping("/list/{id}")
     public ResponseEntity<Optional<Cliente>> getCliente(@PathVariable Integer id){
         
-        Optional<Cliente> a = service.getCliente(id);
+        Optional<Cliente> cliente = service.getCliente(id);
 
-        if (a.isEmpty()){
-            return new ResponseEntity<>(a, HttpStatus.NOT_FOUND);
+        if (cliente.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        return ResponseEntity.ok(a);
+        return ResponseEntity.ok(cliente);
 
     }
     
     @PostMapping("/add")
-    public ResponseEntity<Cliente> addCliente(@RequestBody Cliente cliente){
-        Cliente a = service.addCliente(cliente);
-        return new ResponseEntity<Cliente>(a, HttpStatus.ACCEPTED);
+    public ResponseEntity<?> addCliente(@RequestBody Cliente cliente){
+        try {
+            Cliente clienteToAdd = service.addCliente(cliente);
+            return new ResponseEntity<>(clienteToAdd, HttpStatus.CREATED);
+        }
+        catch (Exception e) {
+            return retornarRespostaErro(e);
+        }
     }
 
     @PutMapping("/update")
-    public void updateCliente(@RequestBody Cliente cliente){
-        service.updateCliente(cliente);
+    public ResponseEntity<?> updateCliente(@RequestBody Cliente cliente){
+        try {
+            Cliente clienteAtualizado = service.updateCliente(cliente);
+
+            if (clienteAtualizado != null) {
+                return ResponseEntity.ok(clienteAtualizado);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        }
+        catch (Exception e) {
+            return retornarRespostaErro(e);
+        }
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteCliente(@PathVariable Integer id){
+    public ResponseEntity<Void> deleteCliente(@PathVariable Integer id){
         service.deleteCliente(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    private ResponseEntity<?> retornarRespostaErro(Exception e) {
+        Map<String, String> response = new HashMap<>();
+        response.put("error", e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 }

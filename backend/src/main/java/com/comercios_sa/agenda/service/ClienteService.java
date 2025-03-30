@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.comercios_sa.agenda.model.Cliente;
+import com.comercios_sa.agenda.model.Contato;
 import com.comercios_sa.agenda.repository.ClienteRepository;
 
 @Service
@@ -24,6 +25,9 @@ public class ClienteService {
     }
 
     public Cliente addCliente(Cliente cliente){
+        for (Contato c : cliente.getContatos()) {
+            c.setCliente(cliente);
+        }
         return repository.save(cliente);
     }
 
