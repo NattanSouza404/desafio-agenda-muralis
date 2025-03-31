@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.comercios_sa.agenda.model.Cliente;
+import com.comercios_sa.agenda.model.Contato;
 import com.comercios_sa.agenda.repository.ClienteRepository;
 
 @Service
@@ -14,6 +15,9 @@ public class ClienteService {
 
     @Autowired
     private ClienteRepository repository;
+
+    @Autowired
+    private ClienteValidator validator;
 
     public List<Cliente> getAllClientes(){
         return repository.findAll();
@@ -23,7 +27,23 @@ public class ClienteService {
         return repository.findById(id);
     }
 
-    public Cliente addCliente(Cliente cliente){
+    public List<Cliente> getClientesByFiltro(String nome, String cpf){
+        return repository.filtrarPorNomeECPF(nome, cpf);
+    }
+
+    public Cliente addCliente(Cliente cliente) throws Exception{
+        for (Contato c : cliente.getContatos()) {
+            c.setCliente(cliente);
+        }
+        validator.validar(cliente);
+        return repository.save(cliente);
+    }
+
+    public Cliente updateCliente(Cliente cliente) throws Exception {
+        for (Contato c : cliente.getContatos()) {
+            c.setCliente(cliente);
+        }
+        validator.validar(cliente);
         return repository.save(cliente);
     }
 
@@ -31,7 +51,4 @@ public class ClienteService {
         repository.deleteById(id);
     }
 
-    public Cliente updateCliente(Cliente cliente) {
-        return repository.save(cliente);
-    }
 }
