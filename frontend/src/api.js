@@ -7,6 +7,15 @@ export async function consultarTodos(){
     }
   }
 
+export async function filtrarClientes(nome, cpf){
+    try {
+        const response = await fetch("http://localhost:8080/cliente/filter?nome="+nome+"&cpf="+cpf);
+        return await response.json();
+    } catch (error) {
+        console.error('Erro buscando dados:', error);
+    }
+}
+
 export async function consultarById(id){
   try {
       const response = await fetch("http://localhost:8080/cliente/list/"+id);

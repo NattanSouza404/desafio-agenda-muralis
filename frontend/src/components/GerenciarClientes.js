@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { consultarTodos, removerCliente } from '../api';
+import { consultarTodos, filtrarClientes, removerCliente } from '../api';
 
 export default function GerenciarClientes() {
 
@@ -28,17 +28,40 @@ export default function GerenciarClientes() {
         
     };
 
+    const [campoNome, setCampoNome] = useState("");
+
+    const atualizarCampoNome = (e) => {
+        setCampoNome(e.target.value);
+    };
+
+    const [campoCpf, setCampoCpf] = useState("");
+
+    const atualizarCampoCpf = (e) => {
+        setCampoCpf(e.target.value);
+    };
+
+    const atualizarTabela = async () => {
+        const clientesFiltrados = await filtrarClientes(campoNome, campoCpf); 
+        setLinhas(clientesFiltrados);
+    }
+
+
     return (
         <div className='GerenciarClientes'>
             <p>Agenda</p>
 
             <label>Nome</label>
-            <input></input>
+            <input name="nome" value={campoNome}
+                onChange={(e) => atualizarCampoNome(e)}
+            />
 
             <label>CPF</label>
-            <input type='number'></input>
+            <input type='number'
+                value={campoCpf}
+                onChange={(e) => atualizarCampoCpf(e)}
+            />
 
-            <button onClick={() => consultarTodos()}>Pesquisar</button>
+            <button onClick={() => atualizarTabela()}>Pesquisar</button>
 
             <table id="resultados">
                 <thead>
