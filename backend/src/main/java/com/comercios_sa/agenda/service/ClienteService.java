@@ -20,19 +20,19 @@ public class ClienteService {
     @Autowired
     private ContatoValidator contatoValidator;
 
-    public List<Cliente> getAllClientes(){
+    public List<Cliente> consultarTodosClientes(){
         return repository.findAll();
     }
 
-    public Optional<Cliente> getCliente(int id){
+    public Optional<Cliente> consultarClienteById(int id){
         return repository.findById(id);
     }
 
-    public List<Cliente> getClientesByFiltro(String nome, String cpf){
+    public List<Cliente> filtrarClientesBy(String nome, String cpf){
         return repository.filtrarPorNomeECPF(nome, cpf);
     }
 
-    public Cliente addCliente(Cliente cliente) throws Exception{
+    public Cliente adicionarCliente(Cliente cliente) throws Exception{
         contatoValidator.validarContatos(cliente.getContatos());
 
         for (Contato c : cliente.getContatos()) {
@@ -42,17 +42,17 @@ public class ClienteService {
         return repository.save(cliente);
     }
 
-    public Cliente updateCliente(Cliente cliente) throws Exception {
+    public Cliente atualizarCliente(Cliente cliente) throws Exception {
         contatoValidator.validarContatos(cliente.getContatos());
 
         for (Contato c : cliente.getContatos()) {
             c.setCliente(cliente);
         }
-        
+
         return repository.save(cliente);
     }
 
-    public void deleteCliente(int id){
+    public void deletarCliente(int id){
         repository.deleteById(id);
     }
 

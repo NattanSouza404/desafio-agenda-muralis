@@ -37,8 +37,8 @@ public class ContatoValidator {
             return;
         }
 
-        boolean emailIsValido = EmailValidator.getInstance().isValid(contato.getValor()); 
-        if (emailIsValido) {
+        boolean emailValido = EmailValidator.getInstance().isValid(contato.getValor()); 
+        if (emailValido) {
             throw new IllegalArgumentException("Email é inválido!");
         }
 
