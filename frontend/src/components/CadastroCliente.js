@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { cadastrarCliente } from "../api.js";
+import { Button, FormGroup, MenuItem, Select, TextField, Typography } from "@mui/material";
 
 export default function CadastroCliente() {
 
@@ -7,7 +8,7 @@ export default function CadastroCliente() {
         {
             nome: "",
             cpf: "",
-            dataNascimento: "",
+            dataNascimento: "2000-01-01",
             endereco: "",
         }
     );
@@ -50,68 +51,71 @@ export default function CadastroCliente() {
     return (
         <div className='CadastroCliente'>
 
-            <p>Novo cliente</p>
-            <p>{cliente.nome}</p>
-            <form>
-                <h3>Cliente</h3>
-                <label htmlFor="nome">Nome</label>
-                <input type="text" name="nome" value={cliente.nome}
+            <Typography variant="p">{cliente.nome}</Typography>
+            <FormGroup>
+                <Typography variant="p">Cliente</Typography>
+
+                <TextField type="text" name="nome" value={cliente.nome}
+                    label="Nome"
                     onChange={(e) => atualizarCampo(e)}
                 />
 
-                <label htmlFor="cpf">CPF</label>
-                <input type="text" name="cpf" value={cliente.cpf}
+                <TextField type="text" name="cpf" value={cliente.cpf}
+                    label="CPF"
                     onChange={(e) => atualizarCampo(e)}
                 />
 
-                <label htmlFor="dataNascimento">Data de Nascimento</label>
-                <input type="date" name="dataNascimento"
+                <TextField
+                    type="date"
+                    name="dataNascimento"
+                    label="Data de Nascimento"
+                    value={cliente.dataNascimento}
                     onChange={(e) => atualizarCampo(e)}
+                    slotProps={{ inputLabel: { shrink: true } }}
                 />
 
-                <label htmlFor="endereco">Endereço</label>
-                <input type="text" name="endereco"
+
+                <TextField type="text" name="endereco"
+                    label="Endereço"
                     onChange={(e) => atualizarCampo(e)}
                 />
-            </form>
+            </FormGroup>
 
-            <h3>Contato</h3>
+            <Typography variant="h3">Contato</Typography>
 
             {
                 contatos.map((contato, index) => (
-                    <form key={index}>
-                        <label htmlFor="tipoContato">Tipo do contato (OBRIGATORIO)</label>
-                        <select name="tipoContato" 
+                    <FormGroup key={index}>
+                        <Select name="tipoContato" 
                             onChange={(e) => atualizarContato(index, e)}
+                            label="Tipo do Contato"
+                            required
                         >
-                            <option value="TELEFONE">Telefone</option>
-                            <option value="EMAIL">E-mail</option>
-                        </select>
+                            <MenuItem value="TELEFONE">Telefone</MenuItem>
+                            <MenuItem value="EMAIL">E-mail</MenuItem>
+                        </Select>
 
-                        <label htmlFor="valor">Contato (OBRIGATORIO)</label>
-                        <div key={index}>
-                            <input
-                                type="text"
-                                value={contato.valor}
-                                name="valor"
-                                onChange={(e) => atualizarContato(index, e)}
-                            />
-                        </div>
-
-                        <label htmlFor="observacao">Observação</label>
-                        <input type="text" name="observacao"
+                        <TextField
+                            type="text"
+                            label="Contato"
+                            value={contato.valor}
+                            name="valor"
                             onChange={(e) => atualizarContato(index, e)}
                         />
 
-                        <p>{contato.tipoContato}: {contato.valor} ({contato.observacao})</p>
-                        <button onClick={() => removerContato(contato)}>Remover</button>
-                    </form>
+                        <TextField type="text" name="observacao"
+                            label="Observação"
+                            onChange={(e) => atualizarContato(index, e)}
+                        />
+
+                        <Button onClick={() => removerContato(contato)}>Remover</Button>
+                    </FormGroup>
                 ))
             }
 
-            <button onClick={() => adicionarNovoContato()}>Adicionar novo contato</button>
+            <Button onClick={() => adicionarNovoContato()}>Adicionar novo contato</Button>
 
-            <button onClick={() => enviarFormulario()}>Salvar</button>
+            <Button onClick={() => enviarFormulario()}>Salvar</Button>
         </div>
     );
 }
