@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,6 +34,7 @@ public class Contato {
     private TipoContato tipoContato;
 
     @Column(name = "ctt_valor", nullable = false)
+    @NotBlank(message = "Valor do contato não pode ser vazio!")
     private String valor;
 
     @Column(name = "ctt_observacao")
