@@ -29,14 +29,14 @@ public class ClienteController {
     private ClienteService service; 
 
     @GetMapping("/listall")
-    public ResponseEntity<List<Cliente>> getAllClientes(){
-        return ResponseEntity.ok(service.getAllClientes());
+    public ResponseEntity<List<Cliente>> consultarTodos(){
+        return ResponseEntity.ok(service.consultarTodosClientes());
     }
 
     @GetMapping("/list/{id}")
-    public ResponseEntity<Optional<Cliente>> getCliente(@PathVariable Integer id){
+    public ResponseEntity<Optional<Cliente>> consultarClienteById(@PathVariable Integer id){
         
-        Optional<Cliente> cliente = service.getCliente(id);
+        Optional<Cliente> cliente = service.consultarClienteById(id);
 
         if (cliente.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -47,12 +47,12 @@ public class ClienteController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<Cliente>> getCliente(
+    public ResponseEntity<List<Cliente>> filtrarClientesBy(
         @RequestParam(required = false) String nome,
         @RequestParam(required = false) String cpf
     ){
         
-        List<Cliente> clientes = service.getClientesByFiltro(nome, cpf);
+        List<Cliente> clientes = service.filtrarClientesBy(nome, cpf);
 
         if (clientes.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -62,9 +62,9 @@ public class ClienteController {
     }
     
     @PostMapping("/add")
-    public ResponseEntity<?> addCliente(@RequestBody Cliente cliente){
+    public ResponseEntity<?> adicionarCliente(@RequestBody Cliente cliente){
         try {
-            Cliente clienteToAdd = service.addCliente(cliente);
+            Cliente clienteToAdd = service.adicionarCliente(cliente);
             return new ResponseEntity<>(clienteToAdd, HttpStatus.CREATED);
         }
         catch (Exception e) {
@@ -73,15 +73,16 @@ public class ClienteController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateCliente(@RequestBody Cliente cliente){
+    public ResponseEntity<?> atualizarCliente(@RequestBody Cliente cliente){
         try {
-            Cliente clienteAtualizado = service.updateCliente(cliente);
+            Cliente clienteAtualizado = service.atualizarCliente(cliente);
 
             if (clienteAtualizado != null) {
                 return ResponseEntity.ok(clienteAtualizado);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
         }
         catch (Exception e) {
             return retornarRespostaErro(e);
@@ -89,8 +90,8 @@ public class ClienteController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteCliente(@PathVariable Integer id){
-        service.deleteCliente(id);
+    public ResponseEntity<Void> deletarCliente(@PathVariable Integer id){
+        service.deletarCliente(id);
         return ResponseEntity.noContent().build();
     }
 
