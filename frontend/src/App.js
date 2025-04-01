@@ -1,3 +1,4 @@
+import { Container } from '@mui/material';
 import './App.css';
 import CadastroCliente from './components/CadastroCliente';
 import EditarCliente from './components/EditarCliente';
@@ -10,17 +11,15 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
   return (
     <Router>
-      <div className="App">
+      <Container className="App">
         <Navbar/>
-        <main>
           <Routes>
             <Route path="/" element={<GerenciarClientes />} />
             <Route path="/cadastrarCliente" element={<CadastroCliente />} />
-            <Route path="/editarCliente" element={<EditarCliente />} />
+            <Route path="/editarCliente/:id" element={<EditarCliente />} />
           </Routes>
-        </main>
         <Footer/>
-      </div>
+      </Container>
     </Router>
   );
 }

@@ -1,64 +1,44 @@
+import { Box, Button, Typography } from "@mui/material";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+
 export default function EditarCliente() {
 
-    /**
-     *      TODO: useState
-     * 
-     *      const [cliente, setCliente] = useState({
-     *          nome: null,
-     *          cpf: null,
-     *          dataNascimento: null,
-     *          endereco: null
-     *      });
-     * 
-     *      const atualizarNome = () => {
-     *          setCliente((cliente) => ({ ...cliente, nome: "Jane Doe" }));
-     *      };
-     */
+    const location = useLocation();
+    const { linha } = location.state;
 
-    const cliente = {
-        nome: "Maurício",
-        cpf: "11122233344",
-        dataNascimento: (2, 3, 2),
-        endereco: "Rua dos Palmares"
-    }
-
-    const contatos = [
-        {
-            tipoContato: "TELEFONE",
-            valor: "987654321",
-            observacao: "Só está disponível depois das 20:00"
-        }
-    ]
+    const [cliente, setCliente] = useState(linha);
+    const [contatos, setContatos] = useState(linha.contatos);
 
     return (
-        <div className='editar-cliente'>
+        <Box className='editar-cliente'>
 
             <p>Informações Cliente</p>
-            <div>
-                <p>Nome: {cliente.nome}</p>
-                <p>CPF: {cliente.cpf}</p>
-                <p>Data de Nascimento: {cliente.dataNascimento}</p>
-                <p>Endereço: {cliente.endereco}</p>
-                <button>Editar cliente</button>
-            </div>
+            <Box>
+                <Typography variant="p">Nome: {cliente.nome}</Typography>
+                <Typography variant="p">CPF: {cliente.cpf}</Typography>
+                <Typography variant="p">Data de Nascimento: {cliente.dataNascimento}</Typography>
+                <Typography variant="p">Endereço: {cliente.endereco}</Typography>
+                <Button>Editar cliente</Button>
+            </Box>
 
-            <p>Informações contatos</p>
-            <div style={{border: "solid 3px"}}>
-                <p>{contatos.at(0).tipoContato}: {contatos.at(0).valor}</p>
-                <p>Obs.: {contatos.at(0).observacao}</p>
-                <button>Editar contato</button>
-                <button>Remover contato</button>
-            </div>
-            <div style={{border: "solid 3px"}}>
-                <p>{contatos.at(0).tipoContato}: {contatos.at(0).valor}</p>
-                <p>Obs.: {contatos.at(0).observacao}</p>
-                <button>Editar contato</button>
-                <button>Remover contato</button>
-            </div>
+            <Typography variant="p">Informações contatos</Typography>
+            <Box style={{border: "solid 3px"}}>
+                <Typography variant="p">{contatos.at(0).tipoContato}: {contatos.at(0).valor}</Typography>
+                <Typography variant="p">Obs.: {contatos.at(0).observacao}</Typography>
+                <Button>Editar contato</Button>
+                <Button>Remover contato</Button>
+            </Box>
+            <Box style={{border: "solid 3px"}}>
+                <Typography variant="p">{contatos.at(0).tipoContato}: {contatos.at(0).valor}</Typography>
+                <Typography variant="p">Obs.: {contatos.at(0).observacao}</Typography>
+                <Button>Editar contato</Button>
+                <Button>Remover contato</Button>
+            </Box>
 
-            <button>Adicionar novo contato</button>
-            <button>Remover cliente</button>
+            <Button>Adicionar novo contato</Button>
+            <Button>Remover cliente</Button>
 
-        </div>
+        </Box>
     );
 }
