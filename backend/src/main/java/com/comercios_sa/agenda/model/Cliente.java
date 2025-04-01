@@ -12,6 +12,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,12 +31,16 @@ public class Cliente {
     private int id;
 
     @Column(name = "cli_nome", nullable = false)
+    @NotBlank(message = "Nome não pode ser vazio!")
     private String nome;
 
     @Column(name = "cli_cpf", nullable = false, unique = true)
+    @NotBlank(message = "CPF não pode ser vazio!")
+    @Pattern(regexp = "\\d+", message = "CPF só pode conter números!")
     private String cpf;
 
     @Column(name = "cli_data_nascimento")
+    @PastOrPresent(message = "Data de nascimento inválida!")
     private LocalDate dataNascimento;
 
     @Column(name = "cli_endereco")
