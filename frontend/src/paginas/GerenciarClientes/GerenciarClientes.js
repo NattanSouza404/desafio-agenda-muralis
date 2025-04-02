@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { consultarTodos, filtrarClientes, removerCliente } from '../api';
+import { consultarTodos, filtrarClientes, removerCliente } from '../../api';
 import { Box, Button, Stack, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';

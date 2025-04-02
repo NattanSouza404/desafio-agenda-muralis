@@ -1,9 +1,9 @@
 import { Box, Container } from '@mui/material';
 import './App.css';
-import CadastroCliente from './components/CadastroCliente';
-import EditarCliente from './components/EditarCliente';
+import CadastroCliente from './paginas/CadastroCliente/CadastroCliente';
+import EditarCliente from './paginas/EditarCliente/EditarCliente';
 import Footer from './components/Footer';
-import GerenciarClientes from './components/GerenciarClientes';
+import GerenciarClientes from './paginas/GerenciarClientes/GerenciarClientes';
 import Navbar from './components/Navbar';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';

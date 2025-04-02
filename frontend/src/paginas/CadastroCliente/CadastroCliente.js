@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { cadastrarCliente } from "../api.js";
+import { cadastrarCliente } from "../../api.js";
 import { Box, Button, Card, CardActions, CardContent, FormControl, Grid, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
 
 export default function CadastroCliente() {

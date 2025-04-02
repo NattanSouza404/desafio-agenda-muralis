@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardActions, CardContent, CardHeader, FormControl, FormGroup, Grid, InputLabel, MenuItem, Modal, Select, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { atualizarCliente, removerCliente } from "../api";
+import { atualizarCliente, removerCliente } from "../../api";
 
 export default function EditarCliente() {
 
