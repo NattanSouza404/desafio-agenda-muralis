@@ -12,24 +12,23 @@ export default function GerenciarClientes() {
 
     useEffect(() => {
         const obterDados = async () => {
-            // TODO: se der vazio faz nada
             const data = await consultarTodos();
-            setLinhas(data);
+
+            if (data !== undefined){
+                setLinhas(data);    
+            }
+            
         };
 
         obterDados();
     }, []);
 
     const removerLinha = async (indice) => {
-        // TODO: Tem certeza que quer deletar??
-
-        if (true) {
-            await removerCliente(linhas[indice].id);
-
+        const clienteDeletado = await removerCliente(linhas[indice].id);
+        if (clienteDeletado) {
             const linhasAtualizadas = linhas.filter((_, i) => i !== indice);
             setLinhas(linhasAtualizadas);
         }
-
     };
 
     const [campoNome, setCampoNome] = useState("");
@@ -46,12 +45,19 @@ export default function GerenciarClientes() {
 
     const atualizarTabela = async () => {
         const clientesFiltrados = await filtrarClientes(campoNome, campoCpf);
+        
+        if (clientesFiltrados === undefined){
+            setLinhas([]);
+            return;
+        }
+
         setLinhas(clientesFiltrados);
     }
 
     return (
         <Box className='GerenciarClientes'>
-            <Typography component="h1" variant='h4'>Agenda</Typography>
+            
+            <Typography variant='h6'>Agenda</Typography>
 
             <Stack direction="row" spacing={6} padding={4}>
 
