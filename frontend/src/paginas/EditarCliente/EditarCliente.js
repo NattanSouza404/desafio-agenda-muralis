@@ -1,4 +1,5 @@
 import { Box, Button, Grid, Stack } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { atualizarCliente, consultarById, removerCliente } from "../../api/api";
@@ -130,7 +131,9 @@ export default function EditarCliente() {
                                     removerContato={removerContato}
                                 />
                             ))}
-                        <Button onClick={() => setOpenModalAdicionarContato(true)}>Adicionar novo contato</Button>
+                        <Button onClick={() => setOpenModalAdicionarContato(true)}>
+                            <AddIcon/>Novo contato
+                        </Button>
                     </Stack>
                 </Grid>
             </Grid>

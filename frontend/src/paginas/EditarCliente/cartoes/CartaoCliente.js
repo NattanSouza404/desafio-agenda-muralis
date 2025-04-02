@@ -1,4 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Stack, Typography } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function CartaoCliente(
     { cliente, abrirModal, removerCliente }
@@ -23,8 +25,12 @@ export default function CartaoCliente(
                 </Stack>
             </CardContent>
             <CardActions>
-                <Button onClick={abrirModal}>Editar cliente</Button>
-                <Button onClick={() => removerCliente(cliente.id)}>Remover cliente</Button>
+                <Button onClick={abrirModal}>
+                    <EditIcon/>Editar
+                </Button>
+                <Button onClick={() => removerCliente(cliente.id)}>
+                    <DeleteIcon/>Remover
+                </Button>
             </CardActions>
         </Card>
     )

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { consultarTodos, filtrarClientes, removerCliente } from '../../api/api';
 import { Box, Button, Stack, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 
 export default function GerenciarClientes() {
@@ -97,10 +99,14 @@ export default function GerenciarClientes() {
                             <TableCell>
 
                                 <Link to={`/editarCliente/${linha.id}`} state={{ linha }}>
-                                    <Button>Editar</Button>
+                                    <Button>
+                                        <EditIcon/>Editar
+                                    </Button>
                                 </Link>
 
-                                <Button onClick={() => removerLinha(indice)}>Remover</Button>
+                                <Button onClick={() => removerLinha(indice)}>
+                                    <DeleteIcon/>Remover
+                                </Button>
                             </TableCell>
                         </TableRow>
                     ))}

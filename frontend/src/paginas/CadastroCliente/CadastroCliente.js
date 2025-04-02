@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { cadastrarCliente } from "../../api/api.js";
 import { Box, Button, Card, CardActions, CardContent, FormControl, Grid, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
+import SaveIcon from '@mui/icons-material/Save';
 
 export default function CadastroCliente() {
 
@@ -50,7 +53,9 @@ export default function CadastroCliente() {
 
     return (
         <Box className='CadastroCliente' alignItems={"center"} >
-            <Button onClick={() => enviarFormulario()}>Salvar</Button>
+            <Button onClick={() => enviarFormulario()}>
+                <SaveIcon/>Salvar
+            </Button>
             <Grid container spacing={4}>
 
                 <Grid size={6} justifyContent={"center"}>
@@ -129,11 +134,15 @@ export default function CadastroCliente() {
                                         </FormControl>
                                     </CardContent>
                                     <CardActions>
-                                        <Button onClick={() => removerContato(contato)}>Remover</Button>
+                                        <Button onClick={() => removerContato(contato)}>
+                                            <DeleteIcon/>Remover
+                                        </Button>
                                     </CardActions>
                                 </Card>
                             ))}
-                        <Button onClick={() => adicionarNovoContato()}>Adicionar novo contato</Button>
+                        <Button onClick={() => adicionarNovoContato()}>
+                            <AddIcon/>Novo contato
+                        </Button>
                     </Stack>
                 </Grid>
             </Grid>

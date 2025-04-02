@@ -1,5 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Modal, Select, Stack, TextField } from "@mui/material";
 import { useState } from "react";
+import SaveIcon from '@mui/icons-material/Save';
 
 export default function ModalAdicionarContato (
     { abrirModal, fecharModal, enviarFormularioAdicionarContato }
@@ -25,7 +26,7 @@ export default function ModalAdicionarContato (
             }}
         >
             <Card sx={{ backgroundColor: "white", padding: "16px" }}>
-                <CardHeader title="Adicionar Contato" />
+                <CardHeader title="Novo Contato" />
                 <CardContent>
                     <FormControl>
                         <Stack spacing={4}>
@@ -59,7 +60,9 @@ export default function ModalAdicionarContato (
                 </CardContent>
 
                 <CardActions>
-                    <Button onClick={() => enviarFormularioAdicionarContato(contato)}>Atualizar</Button>
+                    <Button onClick={() => enviarFormularioAdicionarContato(contato)}>
+                        <SaveIcon/>Salvar
+                    </Button>
                 </CardActions>
 
             </Card>

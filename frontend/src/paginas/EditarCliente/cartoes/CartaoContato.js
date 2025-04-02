@@ -1,4 +1,6 @@
 import { Button, Card, CardActions, CardContent, Stack, Typography } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function CartaoContato(
     { contato, abrirModal, removerContato }
@@ -16,8 +18,12 @@ export default function CartaoContato(
                 </Stack>
             </CardContent>
             <CardActions>
-                <Button onClick={() => abrirModal(contato)}>Editar contato</Button>
-                <Button onClick={() => removerContato(contato)}>Remover contato</Button>
+                <Button onClick={() => abrirModal(contato)}>
+                    <EditIcon/>Editar
+                </Button>
+                <Button onClick={() => removerContato(contato)}>
+                    <DeleteIcon/>Remover
+                </Button>
             </CardActions>
         </Card>
     )

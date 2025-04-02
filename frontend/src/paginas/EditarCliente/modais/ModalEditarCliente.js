@@ -1,5 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardHeader, FormGroup, Modal, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import SaveIcon from '@mui/icons-material/Save';
 
 export default function ModalEditarCliente(
     { cliente, abrirModal, fecharModal, enviarFormulario }
@@ -74,7 +75,9 @@ export default function ModalEditarCliente(
                 </CardContent>
 
                 <CardActions>
-                    <Button onClick={() => enviarFormulario(clienteToAtualizar)}>Atualizar</Button>
+                    <Button onClick={() => enviarFormulario(clienteToAtualizar)}>
+                        <SaveIcon/>Atualizar
+                    </Button>
                 </CardActions>
 
             </Card>

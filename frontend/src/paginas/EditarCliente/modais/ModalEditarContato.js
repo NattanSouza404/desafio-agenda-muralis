@@ -1,5 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Modal, Select, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import SaveIcon from '@mui/icons-material/Save';
 
 export default function ModalEditarContato(
     { abrirModal, fecharModal, enviarFormularioContato, contatoToUpdate }
@@ -63,7 +64,9 @@ export default function ModalEditarContato(
                 </CardContent>
 
                 <CardActions>
-                    <Button onClick={() => enviarFormularioContato(contato)}>Atualizar</Button>
+                    <Button onClick={() => enviarFormularioContato(contato)}>
+                        <SaveIcon/>Salvar
+                    </Button>
                 </CardActions>
 
             </Card>
