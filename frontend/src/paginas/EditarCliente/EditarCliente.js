@@ -1,7 +1,12 @@
-import { Box, Button, Card, CardActions, CardContent, CardHeader, FormControl, FormGroup, Grid, InputLabel, MenuItem, Modal, Select, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack } from "@mui/material";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { atualizarCliente, removerCliente } from "../../api/api";
+import CartaoCliente from "./CartaoCliente";
+import CartaoContato from "./CartaoContato";
+import ModalEditarCliente from "./modais/ModalEditarCliente";
+import ModalEditarContato from "./modais/ModalEditarContato";
+import ModalAdicionarContato from "./modais/ModalAdicionarContato";
 
 export default function EditarCliente() {
 
@@ -10,56 +15,55 @@ export default function EditarCliente() {
 
     const [cliente, setCliente] = useState(linha);
 
-    const adicionarNovoContato = () => {
-        setCliente({
-            ...cliente,
-            contatos:
-                [...cliente.contatos, {
-                    tipoContato: "TELEFONE", valor: "2", observacao: ""
-                }]
-        });
-
-    };
-
-    const [contatoToUpdate, setContatoToUpdate] = useState({
-        id: -1, tipoContato: "TELEFONE", valor: "2", observacao: ""
-    });
-
-    const atualizarContatoToUpdate = (evento) => {
-        const { name, value } = evento.target;
-        setContatoToUpdate({ ...contatoToUpdate, [name]: value });
-    }
-
-    const [clienteToAtualizar, setClienteToAtualizar] = useState({
-        nome: cliente.nome,
-        cpf: cliente.cpf,
-        dataNascimento: cliente.dataNascimento,
-        endereco: cliente.endereco,
-    });
+    const [contatoToUpdate, setContatoToUpdate] = useState(
+        {
+            id: 0, tipoContato: "TELEFONE", valor: "2", observacao: ""
+        }
+    );
 
     const [openModalEditarCliente, setOpenModalEditarCliente] = useState(false);
     const abrirModalEditarCliente = () => setOpenModalEditarCliente(true);
     const fecharModalEditarCliente = () => setOpenModalEditarCliente(false);
 
     const [openModalEditarContato, setOpenModalEditarContato] = useState(false);
-    const abrirModalEditarContato = (contato) => {
-        setContatoToUpdate({
-            id: contato.id,
-            tipoContato: contato.tipoTelefone,
-            valor: contato.valor,
-            observacao: contato.observacao
-        });  
-
-        setOpenModalEditarContato(true)
-    };
     const fecharModalEditarContato = () => setOpenModalEditarContato(false);
-
-    const atualizarCampoClienteAtualizado = (evento) => {
-        const { name, value } = evento.target;
-        setClienteToAtualizar({ ...clienteToAtualizar, [name]: value });
+    const abrirModalEditarContato = (contato) => {
+        setContatoToUpdate(contato);
+        setOpenModalEditarContato(true);
     };
 
-    async function enviarFormulario() {
+    const [openModalAdicionarContato, setOpenModalAdicionarContato] = useState(false);
+    const fecharModalAdicionarContato = () => setOpenModalAdicionarContato(false);
+    const abrirModalAdicionarContato = () => setOpenModalAdicionarContato(true);
+
+    async function removerContato(contato) {
+        const updatedCliente = {
+            ...cliente,
+            contatos: cliente.contatos.filter(c => c.id !== contato.id),
+        };
+
+        const clienteAtualizado = await atualizarCliente(updatedCliente, "Deseja mesmo deletar esse contato?");
+        if (clienteAtualizado) {
+            setCliente(updatedCliente);
+        }
+    }
+
+    async function enviarFormularioContato(contatoToUpdate) {
+        const contatosParaAtualizar = cliente.contatos.filter(c => c.id !== contatoToUpdate.id);
+        contatosParaAtualizar.push(contatoToUpdate);
+
+        const updatedCliente = {
+            ...cliente,
+            contatos: contatosParaAtualizar
+        };
+
+        const clienteAtualizado = await atualizarCliente(updatedCliente, "Deseja mesmo atualizar esse contato?");
+        if (clienteAtualizado) {
+            setCliente(updatedCliente);
+        }
+    }
+
+    async function enviarFormulario(clienteToAtualizar) {
         const updatedCliente = {
             ...cliente,
             nome: clienteToAtualizar.nome,
@@ -76,36 +80,13 @@ export default function EditarCliente() {
 
     };
 
-    async function removerContato(contato) {
+    async function enviarFormularioAdicionarContato(contatoToAdd) {
         const updatedCliente = {
             ...cliente,
-            contatos: cliente.contatos.filter(c => c.id !== contato.id),
+            contatos: [...cliente.contatos, contatoToAdd]
         };
 
-        const clienteAtualizado = await atualizarCliente(updatedCliente, "Deseja mesmo deletar esse contato?");
-        if (clienteAtualizado) {
-            setCliente(updatedCliente);
-        }
-    }
-
-    async function enviarFormularioContato(){ 
-        const contatosParaAtualizar = cliente.contatos.filter(c => c.id !== contatoToUpdate.id);
-        
-        const contatoParaAtualizar = {
-            id: contatoToUpdate.id,
-            tipoContato: contatoToUpdate.tipoContato,
-            valor: contatoToUpdate.valor,
-            observacao: contatoToUpdate.observacao
-        };
-
-        contatosParaAtualizar.push(contatoParaAtualizar);
-        
-        const updatedCliente = {
-            ...cliente,
-            contatos: contatosParaAtualizar
-        };
-
-        const clienteAtualizado = await atualizarCliente(updatedCliente, "Deseja mesmo atualizar esse contato?");
+        const clienteAtualizado = await atualizarCliente(updatedCliente, "Deseja mesmo adicionar esse contato?");
         if (clienteAtualizado) {
             setCliente(updatedCliente);
         }
@@ -115,142 +96,48 @@ export default function EditarCliente() {
         <Box className='editar-cliente'>
             <Grid container spacing={8}>
                 <Grid size={6}>
-                    <Card>
-                        <CardHeader title={cliente.nome} />
-                        <CardContent>
-                            <Stack direction={"column"} textAlign={"initial"} marginLeft={8}>
-                                <Typography variant="p">CPF: {cliente.cpf}</Typography>
-                                <Typography variant="p">Data de Nascimento: {cliente.dataNascimento}</Typography>
-                                <Typography variant="p">Endereço: {cliente.endereco}</Typography>
-                            </Stack>
-                        </CardContent>
-                        <CardActions>
-                            <Button onClick={() => abrirModalEditarCliente()}>Editar cliente</Button>
-                            <Button onClick={() => removerCliente(cliente)}>Remover cliente</Button>
-                        </CardActions>
-                    </Card>
+                    <CartaoCliente
+                        cliente={cliente}
+                        abrirModalEditarCliente={abrirModalEditarCliente}
+                        removerCliente={removerCliente}
+                    />
                 </Grid>
 
                 <Grid size={6}>
                     <Stack spacing={2}>
                         {
                             cliente.contatos.map((contato, index) => (
-                                <Card key={index}>
-                                    <CardContent>
-                                        <Typography variant="p">{contato.tipoContato}: {contato.valor}</Typography>
-                                        <Typography variant="p">Obs.: {contato.observacao}</Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button onClick={() => abrirModalEditarContato(contato)}>Editar contato</Button>
-                                        <Button onClick={() => removerContato(contato)}>Remover contato</Button>
-                                    </CardActions>
-                                </Card>
+                                <CartaoContato
+                                    key={index}
+                                    contato={contato}
+                                    abrirModalEditarContato={() => abrirModalEditarContato(contato)}
+                                    removerContato={removerContato}
+                                />
                             ))}
-                        <Button onClick={adicionarNovoContato}>Adicionar novo contato</Button>
+                        <Button onClick={abrirModalAdicionarContato}>Adicionar novo contato</Button>
                     </Stack>
                 </Grid>
             </Grid>
 
-            <Modal
-                open={openModalEditarContato}
-                onClose={fecharModalEditarContato}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                sx={{
-                    position: "fixed", width: "100%", height: "100%", justifyContent: "center", alignContent: "center", justifyItems: "center"
-                }}
-            >
-                <Card sx={{ backgroundColor: "white", padding: "16px" }}>
-                    <CardHeader title="Editar Cliente" />
-                    <CardContent>
-                        <FormControl>
-                            <Stack spacing={4}>
-                                <InputLabel>Tipo do Contato</InputLabel>
-                                <Select
-                                    name="tipoContato"
-                                    onChange={(e) => atualizarContatoToUpdate(e)}
-                                    value={contatoToUpdate.tipoContato}
-                                    required
-                                >
-                                    <MenuItem value="TELEFONE">Telefone</MenuItem>
-                                    <MenuItem value="EMAIL">E-mail</MenuItem>
-                                </Select>
+            <ModalEditarCliente
+                cliente={cliente}
+                fecharModalEditarCliente={fecharModalEditarCliente}
+                enviarFormulario={enviarFormulario}
+                openModalEditarCliente={openModalEditarCliente}
+            />
 
-                                <TextField
-                                    type="text"
-                                    label="Contato"
-                                    value={contatoToUpdate.valor}
-                                    name="valor"
-                                    required
-                                    onChange={(e) => atualizarContatoToUpdate(e)}
-                                />
+            <ModalAdicionarContato
+                openModalAdicionarContato={openModalAdicionarContato}
+                fecharModalAdicionarContato={fecharModalAdicionarContato}
+                enviarFormularioAdicionarContato={enviarFormularioAdicionarContato}
+            />
 
-                                <TextField type="text" name="observacao"
-                                    label="Observação"
-                                    value={contatoToUpdate.observacao}
-                                    onChange={(e) => atualizarContatoToUpdate(e)}
-                                />
-                            </Stack>
-                        </FormControl>
-                    </CardContent>
-
-                    <CardActions>
-                        <Button onClick={() => enviarFormularioContato()}>Atualizar</Button>
-                    </CardActions>
-
-                </Card>
-            </Modal>
-
-            <Modal
-                open={openModalEditarCliente}
-                onClose={fecharModalEditarCliente}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                sx={{
-                    position: "fixed", width: "100%", height: "100%", justifyContent: "center", alignContent: "center", justifyItems: "center"
-                }}
-            >
-                <Card sx={{ backgroundColor: "white", padding: "16px" }}>
-                    <CardHeader title="Editar Cliente" />
-                    <CardContent>
-                        <FormGroup>
-                            <Stack spacing={4}>
-                                <TextField type="text" name="nome"
-                                    label="Nome"
-                                    value={clienteToAtualizar.nome}
-                                    onChange={(e) => atualizarCampoClienteAtualizado(e)}
-                                />
-
-                                <TextField type="text" name="cpf"
-                                    label="CPF"
-                                    value={clienteToAtualizar.cpf}
-                                    onChange={(e) => atualizarCampoClienteAtualizado(e)}
-                                />
-
-                                <TextField
-                                    type="date"
-                                    name="dataNascimento"
-                                    label="Data de Nascimento"
-                                    value={clienteToAtualizar.dataNascimento}
-                                    slotProps={{ inputLabel: { shrink: true } }}
-                                    onChange={(e) => atualizarCampoClienteAtualizado(e)}
-                                />
-
-                                <TextField type="text" name="endereco"
-                                    label="Endereço"
-                                    value={clienteToAtualizar.endereco}
-                                    onChange={(e) => atualizarCampoClienteAtualizado(e)}
-                                />
-                            </Stack>
-                        </FormGroup>
-                    </CardContent>
-
-                    <CardActions>
-                        <Button onClick={() => enviarFormulario()}>Atualizar</Button>
-                    </CardActions>
-
-                </Card>
-            </Modal>
+            <ModalEditarContato
+                contatoToUpdate={contatoToUpdate}
+                openModalEditarContato={openModalEditarContato}
+                fecharModalEditarContato={fecharModalEditarContato}
+                enviarFormularioContato={enviarFormularioContato}  
+            />
         </Box>
     );
 }
