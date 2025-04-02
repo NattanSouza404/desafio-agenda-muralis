@@ -70,11 +70,12 @@ export default function GerenciarClientes() {
                     onChange={(e) => atualizarCampoNome(e)}
                 />
             
-                <TextField type='number'
+                <TextField
                     label="CPF"
                     fullWidth
                     value={campoCpf}
                     onChange={(e) => atualizarCampoCpf(e)}
+                    helperText="Formato xxx.xxx.xxx-xx"
                 />
 
                 <Button onClick={() => atualizarTabela()} fullWidth>

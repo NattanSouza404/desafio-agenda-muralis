@@ -54,6 +54,7 @@ export default function ModalEditarCliente(
                                 label="CPF"
                                 value={clienteToAtualizar.cpf}
                                 onChange={(e) => atualizarCampoClienteAtualizado(e)}
+                                helperText="Formato xxx.xxx.xxx-xx"
                             />
 
                             <TextField

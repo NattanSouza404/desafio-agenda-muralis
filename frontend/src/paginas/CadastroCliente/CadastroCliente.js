@@ -74,6 +74,11 @@ export default function CadastroCliente() {
                                     label="CPF"
                                     onChange={(e) => atualizarCampo(e)}
                                     required
+                                    slotProps={{
+                                        input: {
+                                            maxLength: 14,
+                                        },
+                                    }}                    
                                     helperText="Formato xxx.xxx.xxx-xx"
                                 />
 
@@ -124,6 +129,8 @@ export default function CadastroCliente() {
                                                 name="valor"
                                                 required
                                                 onChange={(e) => atualizarContato(index, e)}
+                                                helperText="Telefone apenas números, e-mail no formato 'nome@dominio.com'"
+                                                style={{marginBottom:"8px", marginTop:"16px"}}
                                             />
 
                                             <TextField type="text" name="observacao"

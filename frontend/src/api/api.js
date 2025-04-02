@@ -1,6 +1,6 @@
 function estourarErro(msg, error) {
     console.error(msg, error);
-    alert(msg, error);
+    alert(msg+error.message);
 }
 
 export async function consultarTodos() {

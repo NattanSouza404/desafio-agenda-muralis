@@ -52,6 +52,7 @@ export default function ModalEditarContato(
                                 name="valor"
                                 required
                                 onChange={(e) => atualizarContato(e)}
+                                helperText="Telefone apenas números, e-mail no formato 'nome@dominio.com'"
                             />
 
                             <TextField type="text" name="observacao"
