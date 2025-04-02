@@ -32,7 +32,7 @@ public class ClienteService {
         return repository.filtrarPorNomeECPF(nome, cpf);
     }
 
-    public Cliente adicionarCliente(Cliente cliente) throws Exception{
+    public Cliente adicionarCliente(Cliente cliente) {
         contatoValidator.validarContatos(cliente.getContatos());
 
         for (Contato c : cliente.getContatos()) {
@@ -42,7 +42,7 @@ public class ClienteService {
         return repository.save(cliente);
     }
 
-    public Cliente atualizarCliente(Cliente cliente) throws Exception {
+    public Cliente atualizarCliente(Cliente cliente) {
         contatoValidator.validarContatos(cliente.getContatos());
 
         for (Contato c : cliente.getContatos()) {
