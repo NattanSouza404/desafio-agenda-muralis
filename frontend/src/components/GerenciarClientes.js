@@ -1,44 +1,111 @@
-import { consultarTodos } from '../api';
+import { useState, useEffect } from 'react';
+import { consultarTodos, filtrarClientes, removerCliente } from '../api';
+import { Box, Button, Stack, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import { Link } from 'react-router-dom';
 
 export default function GerenciarClientes() {
 
+    const [linhas, setLinhas] = useState(
+        []
+    );
+
+    useEffect(() => {
+        const obterDados = async () => {
+            const data = await consultarTodos();
+
+            if (data !== undefined){
+                setLinhas(data);    
+            }
+            
+        };
+
+        obterDados();
+    }, []);
+
+    const removerLinha = async (indice) => {
+        const clienteDeletado = await removerCliente(linhas[indice].id);
+        if (clienteDeletado) {
+            const linhasAtualizadas = linhas.filter((_, i) => i !== indice);
+            setLinhas(linhasAtualizadas);
+        }
+    };
+
+    const [campoNome, setCampoNome] = useState("");
+
+    const atualizarCampoNome = (e) => {
+        setCampoNome(e.target.value);
+    };
+
+    const [campoCpf, setCampoCpf] = useState("");
+
+    const atualizarCampoCpf = (e) => {
+        setCampoCpf(e.target.value);
+    };
+
+    const atualizarTabela = async () => {
+        const clientesFiltrados = await filtrarClientes(campoNome, campoCpf);
+        
+        if (clientesFiltrados === undefined){
+            setLinhas([]);
+            return;
+        }
+
+        setLinhas(clientesFiltrados);
+    }
+
     return (
-        <div className='GerenciarClientes'>
-            <p>Agenda</p>
+        <Box className='GerenciarClientes'>
+            
+            <Typography variant='h6'>Agenda</Typography>
 
-            <label>Nome</label>
-            <input></input>
+            <Stack direction="row" spacing={6} padding={4}>
 
-            <label>CPF</label>
-            <input type='number'></input>
+                <TextField name="nome"
+                    label="Nome"
+                    value={campoNome}
+                    fullWidth
+                    onChange={(e) => atualizarCampoNome(e)}
+                />
+            
+                <TextField type='number'
+                    label="CPF"
+                    fullWidth
+                    value={campoCpf}
+                    onChange={(e) => atualizarCampoCpf(e)}
+                />
 
-            <button onClick={() => consultarTodos()}>Pesquisar</button>
+                <Button onClick={() => atualizarTabela()} fullWidth>
+                    <SearchIcon/>Pesquisar
+                </Button>
 
-            <table id="resultados">
-                <tbody>
-                    <tr>
-                        <th>Nome</th>
-                        <th>CPF</th>
-                        <th>Operações</th>
-                    </tr>
-                    <tr>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>
-                            <button>Editar</button>
-                            <button>Remover</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>
-                            <button>Editar</button>
-                            <button>Remover</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            </Stack>
+
+            <Table id="resultados">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Nome</TableCell>
+                        <TableCell>CPF</TableCell>
+                        <TableCell>Operações</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {linhas.map((linha, indice) => (
+                        <TableRow key={indice}>
+                            <TableCell>{linha.nome}</TableCell>
+                            <TableCell>{linha.cpf}</TableCell>
+                            <TableCell>
+
+                                <Link to={`/editarCliente/${linha.id}`} state={{ linha }}>
+                                    <Button>Editar</Button>
+                                </Link>
+
+                                <Button onClick={() => removerLinha(indice)}>Remover</Button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </Box>
     );
 }
