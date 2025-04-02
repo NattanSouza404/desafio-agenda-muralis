@@ -10,11 +10,16 @@ export default function CartaoCliente(
             <CardContent>
                 <Stack direction={"column"} textAlign={"initial"} marginLeft={8}>
                     <Typography variant="p">CPF: {cliente.cpf}</Typography>
-                    <Typography variant="p">Data de Nascimento: {cliente.dataNascimento}</Typography>
-                    {
-                        cliente.endereco !== null && cliente.endereco.trim() !== "" &&
-                        <Typography variant="p">Endereço: {cliente.endereco}</Typography>
-                    }
+                    <Typography variant="p">
+                        Data de Nascimento: {
+                            cliente.dataNascimento !== null && cliente.dataNascimento.trim() !== "" ? cliente.dataNascimento : "N/A"
+                        }
+                    </Typography>
+                    <Typography variant="p">
+                        Endereço: {
+                            cliente.endereco !== null && cliente.endereco.trim() !== "" ? cliente.endereco : "N/A"
+                        }
+                    </Typography>
                 </Stack>
             </CardContent>
             <CardActions>

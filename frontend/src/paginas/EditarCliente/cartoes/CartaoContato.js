@@ -8,7 +8,11 @@ export default function CartaoContato(
             <CardContent>
                 <Stack direction={"column"} spacing={2} textAlign={"initial"} marginLeft={8}>
                     <Typography variant="p">{contato.tipoContato}: {contato.valor}</Typography>
-                    <Typography variant="p">Obs.: {contato.observacao}</Typography>
+                    <Typography variant="p">
+                        Obs.: {
+                            contato.observacao !== null && contato.observacao.trim() !== "" ? contato.observacao : "N/A"
+                        }
+                    </Typography>
                 </Stack>
             </CardContent>
             <CardActions>
