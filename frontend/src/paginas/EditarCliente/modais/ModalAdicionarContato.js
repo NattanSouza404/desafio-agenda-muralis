@@ -2,7 +2,7 @@ import { Button, Card, CardActions, CardContent, CardHeader, FormControl, InputL
 import { useState } from "react";
 
 export default function ModalAdicionarContato (
-    { openModalAdicionarContato, fecharModalAdicionarContato, enviarFormularioAdicionarContato }
+    { abrirModal, fecharModal, enviarFormularioAdicionarContato }
 ) {
 
     const [contato, setContato] = useState({
@@ -16,8 +16,8 @@ export default function ModalAdicionarContato (
 
     return (
         <Modal
-            open={openModalAdicionarContato}
-            onClose={fecharModalAdicionarContato}
+            open={abrirModal}
+            onClose={fecharModal}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
             sx={{

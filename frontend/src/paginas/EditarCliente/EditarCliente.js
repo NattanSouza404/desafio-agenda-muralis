@@ -1,7 +1,7 @@
 import { Box, Button, Grid, Stack } from "@mui/material";
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
-import { atualizarCliente, removerCliente } from "../../api/api";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { atualizarCliente, consultarById, removerCliente } from "../../api/api";
 import CartaoCliente from "./cartoes/CartaoCliente";
 import CartaoContato from "./cartoes/CartaoContato";
 import ModalEditarCliente from "./modais/ModalEditarCliente";
@@ -10,10 +10,31 @@ import ModalAdicionarContato from "./modais/ModalAdicionarContato";
 
 export default function EditarCliente() {
 
-    const location = useLocation();
-    const { linha } = location.state;
+    const { id } = useParams();
 
-    const [cliente, setCliente] = useState(linha);
+    const [cliente, setCliente] = useState(
+        {
+            id: "",
+            nome: "",
+            dataNascimento: "",
+            endereco: "",
+            contatos: []
+        }
+    );
+
+    useEffect(() => {
+        const obterDados = async () => {
+
+            const data = await consultarById(id);
+
+            if (data !== undefined) {
+                setCliente(data);
+            }
+
+        };
+
+        obterDados();
+    }, [id]);
 
     const [contatoToUpdate, setContatoToUpdate] = useState(
         {
@@ -22,46 +43,14 @@ export default function EditarCliente() {
     );
 
     const [openModalEditarCliente, setOpenModalEditarCliente] = useState(false);
-    const abrirModalEditarCliente = () => setOpenModalEditarCliente(true);
-    const fecharModalEditarCliente = () => setOpenModalEditarCliente(false);
 
     const [openModalEditarContato, setOpenModalEditarContato] = useState(false);
-    const fecharModalEditarContato = () => setOpenModalEditarContato(false);
     const abrirModalEditarContato = (contato) => {
         setContatoToUpdate(contato);
         setOpenModalEditarContato(true);
     };
 
     const [openModalAdicionarContato, setOpenModalAdicionarContato] = useState(false);
-    const fecharModalAdicionarContato = () => setOpenModalAdicionarContato(false);
-    const abrirModalAdicionarContato = () => setOpenModalAdicionarContato(true);
-
-    async function removerContato(contato) {
-        const updatedCliente = {
-            ...cliente,
-            contatos: cliente.contatos.filter(c => c.id !== contato.id),
-        };
-
-        const clienteAtualizado = await atualizarCliente(updatedCliente, "Deseja mesmo deletar esse contato?");
-        if (clienteAtualizado) {
-            setCliente(updatedCliente);
-        }
-    }
-
-    async function enviarFormularioContato(contatoToUpdate) {
-        const contatosParaAtualizar = cliente.contatos.filter(c => c.id !== contatoToUpdate.id);
-        contatosParaAtualizar.push(contatoToUpdate);
-
-        const updatedCliente = {
-            ...cliente,
-            contatos: contatosParaAtualizar
-        };
-
-        const clienteAtualizado = await atualizarCliente(updatedCliente, "Deseja mesmo atualizar esse contato?");
-        if (clienteAtualizado) {
-            setCliente(updatedCliente);
-        }
-    }
 
     async function enviarFormulario(clienteToAtualizar) {
         const updatedCliente = {
@@ -92,13 +81,40 @@ export default function EditarCliente() {
         }
     }
 
+    async function enviarFormularioContato(contatoToUpdate) {
+        const contatosParaAtualizar = cliente.contatos.filter(c => c.id !== contatoToUpdate.id);
+        contatosParaAtualizar.push(contatoToUpdate);
+
+        const updatedCliente = {
+            ...cliente,
+            contatos: contatosParaAtualizar
+        };
+
+        const clienteAtualizado = await atualizarCliente(updatedCliente, "Deseja mesmo atualizar esse contato?");
+        if (clienteAtualizado) {
+            setCliente(updatedCliente);
+        }
+    }
+
+    async function removerContato(contato) {
+        const updatedCliente = {
+            ...cliente,
+            contatos: cliente.contatos.filter(c => c.id !== contato.id),
+        };
+
+        const clienteAtualizado = await atualizarCliente(updatedCliente, "Deseja mesmo deletar esse contato?");
+        if (clienteAtualizado) {
+            setCliente(updatedCliente);
+        }
+    }
+
     return (
         <Box className='editar-cliente'>
             <Grid container spacing={8}>
                 <Grid size={6}>
                     <CartaoCliente
                         cliente={cliente}
-                        abrirModalEditarCliente={abrirModalEditarCliente}
+                        abrirModal={() => setOpenModalEditarCliente(true)}
                         removerCliente={removerCliente}
                     />
                 </Grid>
@@ -110,33 +126,34 @@ export default function EditarCliente() {
                                 <CartaoContato
                                     key={index}
                                     contato={contato}
-                                    abrirModalEditarContato={() => abrirModalEditarContato(contato)}
+                                    abrirModal={() => abrirModalEditarContato(contato)}
                                     removerContato={removerContato}
                                 />
                             ))}
-                        <Button onClick={abrirModalAdicionarContato}>Adicionar novo contato</Button>
+                        <Button onClick={() => setOpenModalAdicionarContato(true)}>Adicionar novo contato</Button>
                     </Stack>
                 </Grid>
             </Grid>
 
             <ModalEditarCliente
+                abrirModal={openModalEditarCliente}
+                fecharModal={() => setOpenModalEditarCliente(false)}
+                
                 cliente={cliente}
-                fecharModalEditarCliente={fecharModalEditarCliente}
                 enviarFormulario={enviarFormulario}
-                openModalEditarCliente={openModalEditarCliente}
             />
 
             <ModalAdicionarContato
-                openModalAdicionarContato={openModalAdicionarContato}
-                fecharModalAdicionarContato={fecharModalAdicionarContato}
+                abrirModal={openModalAdicionarContato}
+                fecharModal={() => setOpenModalAdicionarContato(false)}
                 enviarFormularioAdicionarContato={enviarFormularioAdicionarContato}
             />
 
             <ModalEditarContato
                 contatoToUpdate={contatoToUpdate}
-                openModalEditarContato={openModalEditarContato}
-                fecharModalEditarContato={fecharModalEditarContato}
-                enviarFormularioContato={enviarFormularioContato}  
+                abrirModal={openModalEditarContato}
+                fecharModal={() => setOpenModalEditarContato(false)}
+                enviarFormularioContato={enviarFormularioContato}
             />
         </Box>
     );

@@ -1,11 +1,8 @@
 import { Button, Card, CardActions, CardContent, Stack, Typography } from "@mui/material";
 
-export default function CartaoContato(props) {
-    
-    const contato = props.contato;
-    const abrirModalEditarContato = props.abrirModalEditarContato;
-    const removerContato = props.removerContato;
-    
+export default function CartaoContato(
+    { contato, abrirModal, removerContato }
+) {
     return (
         <Card>
             <CardContent>
@@ -15,7 +12,7 @@ export default function CartaoContato(props) {
                 </Stack>
             </CardContent>
             <CardActions>
-                <Button onClick={() => abrirModalEditarContato(contato)}>Editar contato</Button>
+                <Button onClick={() => abrirModal(contato)}>Editar contato</Button>
                 <Button onClick={() => removerContato(contato)}>Remover contato</Button>
             </CardActions>
         </Card>
