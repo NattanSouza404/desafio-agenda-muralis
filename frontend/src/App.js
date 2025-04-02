@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import './App.css';
 import CadastroCliente from './components/CadastroCliente';
 import EditarCliente from './components/EditarCliente';
@@ -13,11 +13,13 @@ function App() {
     <Router>
       <Container className="App">
         <Navbar/>
+        <Box sx={{padding: 8}}>
           <Routes>
             <Route path="/" element={<GerenciarClientes />} />
             <Route path="/cadastrarCliente" element={<CadastroCliente />} />
             <Route path="/editarCliente/:id" element={<EditarCliente />} />
           </Routes>
+        </Box>
         <Footer/>
       </Container>
     </Router>
