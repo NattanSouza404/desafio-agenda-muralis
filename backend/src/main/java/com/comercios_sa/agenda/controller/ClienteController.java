@@ -1,8 +1,6 @@
 package com.comercios_sa.agenda.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comercios_sa.agenda.model.Cliente;
 import com.comercios_sa.agenda.service.ClienteService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/cliente")
@@ -62,42 +62,25 @@ public class ClienteController {
     }
     
     @PostMapping("/add")
-    public ResponseEntity<?> adicionarCliente(@RequestBody Cliente cliente){
-        try {
-            Cliente clienteToAdd = service.adicionarCliente(cliente);
-            return new ResponseEntity<>(clienteToAdd, HttpStatus.CREATED);
-        }
-        catch (Exception e) {
-            return retornarRespostaErro(e);
-        }
+    public ResponseEntity<?> adicionarCliente(@RequestBody @Valid Cliente cliente){
+        Cliente clienteToAdd = service.adicionarCliente(cliente);
+        return new ResponseEntity<>(clienteToAdd, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> atualizarCliente(@RequestBody Cliente cliente){
-        try {
-            Cliente clienteAtualizado = service.atualizarCliente(cliente);
+    public ResponseEntity<?> atualizarCliente(@RequestBody @Valid Cliente cliente){
+        Cliente clienteAtualizado = service.atualizarCliente(cliente);
 
-            if (clienteAtualizado != null) {
-                return ResponseEntity.ok(clienteAtualizado);
-            }
-
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
+        if (clienteAtualizado != null) {
+            return ResponseEntity.ok(clienteAtualizado);
         }
-        catch (Exception e) {
-            return retornarRespostaErro(e);
-        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deletarCliente(@PathVariable Integer id){
         service.deletarCliente(id);
         return ResponseEntity.noContent().build();
-    }
-
-    private ResponseEntity<?> retornarRespostaErro(Exception e) {
-        Map<String, String> response = new HashMap<>();
-        response.put("error", e.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 }

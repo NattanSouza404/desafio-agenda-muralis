@@ -29,15 +29,15 @@ public class Contato {
     @Column(name = "ctt_id")
     private int id;
 
-    @Column(name = "ctt_tipo", nullable = false)
+    @Column(name = "ctt_tipo", nullable = false, length = 50)
     @Enumerated(EnumType.STRING)
     private TipoContato tipoContato;
 
-    @Column(name = "ctt_valor", nullable = false)
+    @Column(name = "ctt_valor", nullable = false, length = 100)
     @NotBlank(message = "Valor do contato não pode ser vazio!")
     private String valor;
 
-    @Column(name = "ctt_observacao")
+    @Column(name = "ctt_observacao", length = 255)
     private String observacao;
 
     @ManyToOne

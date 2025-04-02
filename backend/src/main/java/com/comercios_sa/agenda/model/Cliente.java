@@ -30,23 +30,23 @@ public class Cliente {
     @Column(name = "cli_id")
     private int id;
 
-    @Column(name = "cli_nome", nullable = false)
+    @Column(name = "cli_nome", nullable = false, length = 100)
     @NotBlank(message = "Nome não pode ser vazio!")
     private String nome;
 
-    @Column(name = "cli_cpf", nullable = false, unique = true)
+    @Column(name = "cli_cpf", nullable = false, unique = true, length = 14)
     @NotBlank(message = "CPF não pode ser vazio!")
-    @Pattern(regexp = "\\d+", message = "CPF só pode conter números!")
+    @Pattern(regexp = "^[0-9.-]+$", message = "CPF só pode conter números, pontos (.) e hífens (-)!")
     private String cpf;
 
     @Column(name = "cli_data_nascimento")
     @PastOrPresent(message = "Data de nascimento inválida!")
     private LocalDate dataNascimento;
 
-    @Column(name = "cli_endereco")
+    @Column(name = "cli_endereco", length = 255)
     private String endereco;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contato> contatos;
 
 }
