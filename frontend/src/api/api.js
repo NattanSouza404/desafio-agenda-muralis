@@ -98,7 +98,7 @@ export async function atualizarCliente(cliente, msg) {
 export async function removerCliente(id) {
 
     try {
-        if (!window.confirm("Deseja deletar esse cliente?")) {
+        if (!window.confirm("Deseja deletar esse cliente e seus contatos?")) {
             return false;
         }
         const url = 'http://localhost:8080/cliente/delete/' + id;
