@@ -28,10 +28,8 @@ export async function consultarById(id){
 export async function cadastrarCliente(cliente){
 
     try {
-        const confirmacaoUsuario = true; 
-        //confirm("Deseja mesmo cadastrar?");
 
-        if (confirmacaoUsuario){
+        if (window.confirm("Deseja mesmo cadastrar esse cliente?")){
         
             const url = "http://localhost:8080/cliente/add";
 
@@ -58,13 +56,11 @@ export async function cadastrarCliente(cliente){
     }
 }
 
-export async function atualizarCliente(cliente){
+export async function atualizarCliente(cliente, msg){
     
     try {
-        const confirmacaoUsuario = true;
-
-        if (confirmacaoUsuario){
-            const url = "/cliente/update";
+        if (window.confirm(msg)){
+            const url = "http://localhost:8080/cliente/update";
 
             const option = {
                 method: 'PUT',
@@ -81,7 +77,11 @@ export async function atualizarCliente(cliente){
                 const resposta = await result.json();
                 alert("Erro ao atualizar: "+resposta.error);
             }
+
+            return true;
         }
+
+        return false;
     } catch (error){
         console.error('Erro ao atualizar:', error);
     }
@@ -90,11 +90,8 @@ export async function atualizarCliente(cliente){
 
 export async function removerCliente(id){
     
-    try {
-
-        const confirmacaoUsuario = true;
-
-        if (confirmacaoUsuario){
+    try { 
+        if (window.confirm("Deseja deletar esse cliente?")){
             const url = 'http://localhost:8080/cliente/delete/'+id;
 
             const response = await fetch(url, {
@@ -112,7 +109,10 @@ export async function removerCliente(id){
                 alert("Erro ao deletar: "+resposta.error);
             }
 
+            return true;
         }
+
+        return false;
     } catch (error){
         console.error('Erro ao deletar:', error);
     }
