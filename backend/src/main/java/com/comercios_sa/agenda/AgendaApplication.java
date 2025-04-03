@@ -10,6 +10,4 @@ public class AgendaApplication {
 		SpringApplication.run(AgendaApplication.class, args);
 	}
 
-	// TODO: enfiar mascara nas paradas input cpf
-
 }
