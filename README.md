@@ -12,8 +12,6 @@ Sistema web de agenda de clientes, proposto como desafio técnico da empresa Mur
    * [Dependências](#dependências)
    * [Configurações](#configurações)
    * [Instruções de uso](#instruções-de-uso)
-    * [Executando o Backend](#executando-o-backend)
-    * [Executando o Frontend](#executando-o-frontend)
    * [Vídeo Demonstração](#vídeo-demonstração)
    * [Requisitos](#vídeo-demonstração)
    * [Regras de Negócio](#vídeo-demonstração)
@@ -134,7 +132,7 @@ A partir disso, já é possível utilizar a API.
     `npm start` ou `npm run start`
 
 ## Vídeo demonstração
-
+https://github.com/user-attachments/assets/cc3b144e-902f-45b1-ae4c-7e5b13654c5f
 
 ## Requisitos
 Abaixo segue a lista de requisitos implementados:
