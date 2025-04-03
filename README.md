@@ -1,23 +1,23 @@
 # Agenda de Contatos
 ## Desafio Técnico da Muralis
 
+## Descrição
+
 Sistema web de agenda de clientes, proposto como desafio técnico da empresa Muralis.
 
-Link para repositório do Github (caso disponível) com código-fonte ou arquivo ZIP
-contendo toda a solução desenvolvida
-
-Documentação no README.md, explicando a estrutura do projeto, dependências,
-configurações e instruções de uso.
-
 ## Índice
+   * [Descrição](#descrição)
    * [Principais Tecnologias](#principais-tecnologias)
    * [Estrutura do Projeto](#estrutura-do-projeto)
    * [Dependências](#dependências)
-   * [Stack Utilizada](#stack-utilizada)
-   * [Funcionalidades](#funcionalidades)
-   * [Aprendizados](#aprendizados)
-   * [Agradecimentos](#agradecimentos)
-   * [Autor](#autor)
+   * [Configurações](#configurações)
+   * [Instruções de uso](#instruções-de-uso)
+    * [Executando o Backend](#executando-o-backend)
+    * [Executando o Frontend](#executando-o-frontend)
+   * [Vídeo Demonstração](#vídeo-demonstração)
+   * [Requisitos](#vídeo-demonstração)
+   * [Regras de Negócio](#vídeo-demonstração)
+   * [Créditos](#créditos)
 
 ## Principais tecnologias
 
@@ -118,9 +118,7 @@ A partir disso, podem ser executados os scripts SQL em `database/SCRIPT.sql`. De
 - Permitem a inserção direta das entidades pelo PostgreSQL
 - Irão popular o banco de dados
 
-
 A partir disso, já é possível utilizar a API.
-
 
 ### Executando o Frontend
 - Navegar até a pasta do frontend no terminal
@@ -135,21 +133,11 @@ A partir disso, já é possível utilizar a API.
 
     `npm start` ou `npm run start`
 
-`npm install`
-
-`react-router-dom`
-
-`npm install @mui/material @emotion/react @emotion/styled`
-
-`npm install @mui/icons-material`
-
 ## Vídeo demonstração
-video.mp4
 
-## Requisitos implementados
 
-Abaixo segue a lista de requisitos dessa solução:
-
+## Requisitos
+Abaixo segue a lista de requisitos implementados:
 - [x] RF01: O sistema deve permitir o cadastro de clientes com os seguintes dados: Nome,
 CPF, Data de Nascimento e Endereço;
 - [x] RF02: O sistema deve permitir a edição dos dados de um cliente cadastrado;
@@ -163,9 +151,8 @@ seguintes dados: Tipo do Contato (Telefone, E-mail), Valor do Contato (número o
 - [x] RF09: O sistema deve permitir a listagem de todos os contatos de um cliente
 específico.
 
-## Regras de negócio aplicadas
-
-Abaixo segue a lista de regras de negócio dessa solução:
+## Regras de negócio
+Abaixo segue a lista de regras de negócio aplicadas:
 - [x] RN01: Os campos Nome e CPF são obrigatórios no cadastro do cliente;
 - [x] RN02: Os campos Tipo do Contato e Valor do Contato são obrigatórios no cadastro do
 contato;
@@ -177,3 +164,5 @@ contato;
 - [x] RN08: O sistema deve validar os dados informados antes de permitir o cadastro ou
 edição.
 
+## Créditos
+favicon.ico usado é de autoria de [flatart_icons - Flaticon](https://www.flaticon.com/br/autores/flatart-icons)
