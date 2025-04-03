@@ -1,53 +1,28 @@
-import logo from './logo.svg';
+import { Box, Container } from '@mui/material';
 import './App.css';
+import CadastroCliente from './paginas/CadastroCliente/CadastroCliente';
+import EditarCliente from './paginas/EditarCliente/EditarCliente';
+import Footer from './componentes/Footer';
+import GerenciarClientes from './paginas/GerenciarClientes/GerenciarClientes';
+import Navbar from './componentes/Navbar';
 
-async function consultarById(id){
-  try {
-      const response = await fetch("http://localhost:8080/cliente/list/"+id);
-      const objeto = await response.json();
-
-      document.getElementById('a').textContent = objeto.id;
-      document.getElementById('b').textContent = objeto.nome;
-  } catch (error) {
-      console.error('Erro buscando dados:', error);
-      document.getElementById("resultados").textContent = "Erro carregando dados.";
-  }
-}
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-
-        <button onClick={() => consultarById(1)}>AAAA</button>
-        
-        <table id="resultados">
-          <tbody>
-            <tr>
-              <th>Id</th>
-              <th>Nome</th>
-            </tr>
-            <tr>
-              <td id="a"></td>
-              <td id="b"></td>
-            </tr>
-          </tbody>
-        </table>
-        
-      </header>
-    </div>
+    <Router>
+      <Container className="App">
+        <Navbar/>
+        <Box sx={{padding: 8}}>
+          <Routes>
+            <Route path="/" element={<GerenciarClientes />} />
+            <Route path="/cadastrarCliente" element={<CadastroCliente />} />
+            <Route path="/editarCliente/:id" element={<EditarCliente />} />
+          </Routes>
+        </Box>
+        <Footer/>
+      </Container>
+    </Router>
   );
 }
 
