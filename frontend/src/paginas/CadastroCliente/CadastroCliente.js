@@ -53,9 +53,6 @@ export default function CadastroCliente() {
 
     return (
         <Box className='CadastroCliente' alignItems={"center"} >
-            <Button onClick={() => enviarFormulario()}>
-                <SaveIcon/>Salvar
-            </Button>
             <Grid container spacing={4}>
 
                 <Grid size={6} justifyContent={"center"}>
@@ -153,6 +150,10 @@ export default function CadastroCliente() {
                     </Stack>
                 </Grid>
             </Grid>
+
+            <Button onClick={() => enviarFormulario()} sx={{marginTop:"32px"}}>
+                <SaveIcon/>Salvar
+            </Button>
         </Box>
     );
 }
